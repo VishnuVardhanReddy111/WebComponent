@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./scripts/blog-card.js"></script>
+    <script src="./scripts/blog-modal.js"></script>
+    <link rel="stylesheet" href="./styles/index.css">
+    
+</head>
+<body>
+    <template id="card-template">
+        <link rel="stylesheet" href="./styles/blog-card.css">
+        <style>
+
+            .content{
+                margin-top: 10px;
+            }
+
+            .cover{
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+            }
+
+            .title{
+                margin: 0;
+                font-size: 20px;
+            }
+
+            .subtitle{
+                color: #666;
+                font-size: 15px;
+            }
+        </style>
+        <div class="card">
+            <div class="header">
+                <img src="" alt="" class="cover">
+            </div>
+            <div class="content">
+                <p class="title"></p>
+                <span class="subtitle"></span>
+            </div>
+        </div>
+    </template>
+
+    <template id="modal-template">
+
+        <link rel="stylesheet" href="./styles/blog-modal.css">
+        <div class="wrapper">
+            <div class="overlay">
+                <div class="modal">
+                    <div class="loader"></div>
+                    <p class="close">X</p>
+                    <div class="header">
+                        <div class="title">Loading...</div>
+                        <div class="subtitle"></div>
+                    </div>
+                    <div class="body">
+                        <img src="" class="cover" alt="">
+                        <div class="synopsis">Loading...</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <blog-modal title="Blog Post #1" content="This is the blog post number 1. This is the content of the text."></blog-modal> 
+    <header class="navbar">Sherlock Holmes - The Blog</header>
+    <div id="blog-cards-container"></div>
+    <!-- <div class="loader"></div> -->
+    <script>
+
+const titles = [
+    {title: 'The Five Orange Pips', 
+    subtitle: 'A delivery of innocous letter followed by death', 
+    cover: 'https://upload.wikimedia.org/wikipedia/commons/c/c8/Sherlock_Holmes_in_The_Five_Orange_Pips.jpg?20071112230528',
+    synopsis: "The Five Orange Pips, one of the 56 short Sherlock Holmes stories written by Sir Arthur Conan Doyle, is the fifth of the twelve stories in The Adventures of Sherlock Holmes.The story was first published in The Strand Magazine in November 1891. Conan Doyle later ranked the story seventh in a list of his twelve favourite Sherlock Holmes stories.[1] This is also one of only two Sherlock Holmes short stories where Holmes client dies after seeking his help; the other being The Adventure of the Dancing Men"},
+    {title: 'A Study in Scarlet', 
+    subtitle: 'Dr. John Watson meets Mr. Sherlock Holmes', 
+    cover: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/A_Study_in_Scarlet_-_p56.png/408px-A_Study_in_Scarlet_-_p56.png?20220204112326',
+    synopsis: "A Study in Scarlet is an 1887 detective novel written by Arthur Conan Doyle. The story marks the first appearance of Sherlock Holmes and Dr. Watson, who would become the most famous detective duo in literature. The books title derives from a speech given by Holmes, a consulting detective, to his friend and chronicler Watson on the nature of his work, in which he describes the storys murder investigation as his study in scarlet There is the scarlet thread of murder running through the colourless skein of life, and our duty is to unravel it, and isolate it, and expose every inch of it." },
+    {title: 'The Hound of the Baskervilles', 
+    subtitle: 'A mysterious hound terrifies a town', 
+    cover: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Sherlock_Holmes_-_The_Man_with_the_Twisted_Lip.jpg/586px-Sherlock_Holmes_-_The_Man_with_the_Twisted_Lip.jpg?20210305220751',
+    synopsis: "The Hound of the Baskervilles is the third of the four crime novels written by Sir Arthur Conan Doyle featuring the detective Sherlock Holmes. Originally serialised in The Strand Magazine from August 1901 to April 1902, it is set largely on Dartmoor in Devon in Englands West Country and tells the story of an attempted murder inspired by the legend of a fearsome, diabolical hound of supernatural origin. Sherlock Holmes and his companion Dr. Watson investigate the case. This was the first appearance of Holmes since his apparent death in The Final Problem and the success of The Hound of the Baskervilles led to the characters eventual revival.[2]"}
+]
+
+titles.forEach(title => {
+    let node = document.createElement('blog-card');
+    node.setAttribute('title',title.title);
+    node.setAttribute('subtitle', title.subtitle);
+    node.setAttribute('cover', title.cover);
+
+    document.getElementById('blog-cards-container').appendChild(node);
+})
+
+let cards = document.getElementsByTagName('blog-card');
+[...cards].forEach(card => {
+    card.addEventListener('click', () => {
+        let blogModal = document.querySelector('blog-modal');
+        let currentBlog = titles.filter(title => title.title === card.getAttribute('title'));
+        blogModal.setAttribute('open', true);
+        blogModal.setAttribute('title', card.getAttribute('title'));
+        blogModal.setAttribute('subtitle', card.getAttribute('subtitle'));
+        blogModal.setAttribute('synopsis', currentBlog[0].synopsis);
+        blogModal.setAttribute('cover', currentBlog[0].cover);
+    })
+})
+    </script>
+</body>
+</html>
